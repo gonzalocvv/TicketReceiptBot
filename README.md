@@ -51,7 +51,14 @@ NOTION_INGRESOS_DB=id_de_tu_base_ingresos
 ### 4. Configurar Notion
 - Crear una Integration en notion.so/profile/integrations
 - Conectar la integration a tu página de ReciboBot
-- Crear las tablas Tickets, Detalle e Ingresos (ver estructura abajo)
+- Podes crear las tablas Tickets, Detalle e Ingresos (ver estructura abajo)
+- También podes duplicar la plantilla directamente:
+
+## 📋 Plantilla de Notion
+
+👉 [Duplicar plantilla de Notion](https://www.notion.so/ReciboBot-320e548e6cdd8090b316c7b819d1cd5b?source=copy_link)
+
+Incluye las tablas Tickets, Detalle e Ingresos ya configuradas con todas las columnas y relaciones.
 
 ### 5. Correr el bot
 ```bash
