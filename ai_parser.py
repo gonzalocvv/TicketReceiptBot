@@ -76,6 +76,7 @@ REGLAS:
 - Asigná "tipo" a cada producto: Necesario para comida básica, limpieza, higiene. Innecesario para snacks, golosinas, lujos
 - medio_pago: detectalo del texto. Opciones: "Tarjeta de crédito", "Tarjeta de débito", "Efectivo", "Transferencia". Si no se menciona, usá "Efectivo" por defecto
 - Categorías: Supermercado, Restaurante / Comida, Transporte, Farmacia, Entretenimiento, Ropa, Servicios, Otro
+- Si el usuario escribe la fecha en formato DD/MM/YY o DD/MM/YYYY, convertila a YYYY-MM-DD
 """
 
 PROMPT_INGRESO = """
