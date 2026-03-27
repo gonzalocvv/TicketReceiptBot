@@ -43,7 +43,7 @@ Te va a pedir dos cosas:
 
 Una vez creado, BotFather te manda un mensaje con el token. Tiene este formato:
 ```
-8213716206:AAFJjWhp__cya2yE5ZFkb3fCV9sfFgt0w6g
+8213716206:AAFJjW...
 ```
 
 > ⚠️ Este token es como la contraseña de tu bot. Cualquiera que lo tenga puede controlarlo completamente. Nunca lo subas a GitHub ni lo compartas públicamente.
