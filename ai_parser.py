@@ -39,8 +39,9 @@ REGLAS:
 - Asigná "tipo" a cada producto: Necesario para comida básica, limpieza, higiene, medicamentos. Innecesario para snacks, golosinas, bebidas alcohólicas, artículos de lujo
 - medio_pago: detectalo del ticket. Opciones: "Tarjeta de crédito", "Tarjeta de débito", "Efectivo", "Transferencia". Si no podés determinarlo, usá null
 - Si el usuario manda información adicional en el caption, esa información tiene prioridad sobre lo que detectes visualmente
-- Categorías para el ticket: Supermercado, Restaurante / Comida, Transporte, Farmacia, Entretenimiento, Ropa, Servicios, Otro
-- Categorías para productos: Frutas, Verduras, Carnes, Lácteos, Limpieza, Bebidas, Otro
+- Categorías para el ticket: Supermercado, Restaurante / Delivery, Bar, Bondi, Uber / Taxi, Club / Deportes, Farmacia, Ropa, Entretenimiento, Servicios, Salud, Otro
+- Categorías para productos: Frutas, Verduras, Carnes, Lácteos, Yogurt, Panadería, Snacks, Limpieza, Higiene, Agua, Bebidas, Otro
+- Para el tipo de cada producto: Necesario = Frutas, Verduras, Carnes, Lácteos, Yogurt, Panadería, Agua, Limpieza, Higiene. Innecesario = Snacks, Bebidas (jugos, gaseosas, alcohol). Si tenés dudas, analizá el producto específico.
 - Si no podés leer algún dato, usá null
 """
 
@@ -75,8 +76,11 @@ REGLAS:
 - Si el ticket es de POS o no tiene detalle de productos, dejá productos como lista vacía []
 - Asigná "tipo" a cada producto: Necesario para comida básica, limpieza, higiene. Innecesario para snacks, golosinas, lujos
 - medio_pago: detectalo del texto. Opciones: "Tarjeta de crédito", "Tarjeta de débito", "Efectivo", "Transferencia". Si no se menciona, usá "Efectivo" por defecto
-- Categorías: Supermercado, Restaurante / Comida, Transporte, Farmacia, Entretenimiento, Ropa, Servicios, Otro
+- Categorías para el ticket: Supermercado, Restaurante / Delivery, Bar, Bondi, Uber / Taxi, Club / Deportes, Farmacia, Ropa, Entretenimiento, Servicios, Salud, Otro
+- Categorías para productos: Frutas, Verduras, Carnes, Lácteos, Yogurt, Panadería, Snacks, Limpieza, Higiene, Agua, Bebidas, Otro
+- Para el tipo de cada producto: Necesario = Frutas, Verduras, Carnes, Lácteos, Yogurt, Panadería, Agua, Limpieza, Higiene. Innecesario = Snacks, Bebidas (jugos, gaseosas, alcohol). Si tenés dudas, analizá el producto específico.
 - Si el usuario escribe la fecha en formato DD/MM/YY o DD/MM/YYYY, convertila a YYYY-MM-DD
+- Si el usuario menciona "stm" o "tarjeta stm", el medio de pago es "Bondi" como categoría y "Tarjeta de débito" como medio de pago
 """
 
 PROMPT_INGRESO = """
