@@ -40,7 +40,7 @@ El bot tiene que correr 24/7 para poder recibir mensajes en cualquier momento. R
 
 ¿No querés configurar las tablas desde cero? Duplicá la plantilla con un click:
 
-👉 [Duplicar plantilla de Notion](https://www.notion.so/ReciboBot-320e548e6cdd8090b316c7b819d1cd5b?source=copy_link)
+👉 [Duplicar plantilla de Notion](https://flicker-baker-e2f.notion.site/ReciboBot-Template-330e548e6cdd80aba23df6c3f4e8e857?source=copy_link)
 
 Incluye las tablas Tickets, Detalle e Ingresos ya configuradas con todas las columnas, relaciones y opciones de Select.
 

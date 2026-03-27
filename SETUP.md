@@ -87,7 +87,7 @@ Esta parte tiene varios pasos pero todos son gratuitos.
 
 La forma más fácil es usar la plantilla que ya está configurada con todas las tablas y columnas:
 
-👉 [Duplicar plantilla de Notion](https://www.notion.so/ReciboBot-320e548e6cdd8090b316c7b819d1cd5b?source=copy_link)
+👉 [Duplicar plantilla de Notion](https://flicker-baker-e2f.notion.site/ReciboBot-Template-330e548e6cdd80aba23df6c3f4e8e857?source=copy_link)
 
 Click en **Duplicate** y se crea una copia en tu Notion con las tres tablas listas: Tickets, Detalle e Ingresos.
 
