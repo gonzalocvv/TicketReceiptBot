@@ -1,83 +1,75 @@
 # 🧾 TicketReceiptBot
 
-Bot de Telegram que procesa fotos de tickets de compra automáticamente usando IA y guarda los gastos en Notion.
+Bot de Telegram que procesa fotos de tickets de compra automáticamente usando IA y guarda los gastos en Notion. También registra gastos sin ticket y ingresos por texto.
 
 ## ¿Cómo funciona?
 
 1. Le mandás una foto de un ticket al bot por Telegram
-2. Gemini AI extrae los datos (tienda, fecha, productos, precios)
-3. Los datos se guardan automáticamente en tu base de datos de Notion
+2. Claude AI lee la imagen y extrae tienda, fecha, productos, precios y categorías
+3. Los datos se guardan automáticamente en tu Notion — un registro por ticket y uno por cada producto
 
-También podés mandarle texto como `Transferencia a Juan $500 comida` y lo registra igual.
+Si no tenés ticket, escribís `/gasto almacén $350 tarjeta de débito` y queda registrado igual. También podés mandar una foto con caption para agregar info que no aparece en el ticket, como el medio de pago o si fue necesario o no.
 
 ## Stack
 
-- Python 3.13+
-- python-telegram-bot
-- Google Gemini API (gratuito)
-- Notion API (gratuito)
+| Herramienta | Rol | Costo |
+|---|---|---|
+| Python 3.13+ | Cerebro que conecta todo | Gratis |
+| python-telegram-bot | Interfaz con Telegram | Gratis |
+| Claude API (Anthropic) | Lee imágenes y extrae datos | ~$0.003 por ticket |
+| Notion API | Base de datos visual | Gratis |
+| Railway | Servidor 24/7 | Gratis (trial) / $5/mes |
 
-## Configuración
+## Contexto y decisiones de arquitectura
 
-### 1. Clonar el repo
-```bash
-git clone https://github.com/gonzalocvv/TicketReceiptBot.git
-cd TicketReceiptBot
-```
+El proyecto nació de una necesidad simple: sacar foto a un ticket del supermercado y que los datos queden guardados solos en algún lado. La idea inicial era usar Make o Zapier, pero decidimos construirlo nosotros para que sea replicable, personalizable y un proyecto personal real con documentación propia.
 
-### 2. Crear entorno virtual e instalar dependencias
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+**¿Por qué Telegram y no WhatsApp?**
+WhatsApp tiene una API oficial que es paga y burocrática. Telegram es gratuito, tiene una API excelente y @BotFather te permite crear un bot en 5 minutos.
 
-### 3. Configurar variables de entorno
-Copiá el archivo de ejemplo y completá con tus tokens:
-```bash
-cp .env.example .env
-```
+**¿Por qué Claude y no Gemini?**
+Empezamos con Gemini porque tiene un tier gratuito generoso (1500 requests por día). El problema fue que las cuentas de Google Workspace tienen el acceso a AI Studio bloqueado por el administrador de la organización, así que el `limit: 0` era permanente. Después de varias pruebas con distintas cuentas y modelos, cambiamos a la API de Claude de Anthropic. Con $5 de crédito procesás miles de tickets — cada imagen cuesta fracciones de centavo.
 
-Editá el `.env` con tus valores:
-```
-TELEGRAM_TOKEN=tu_token_de_botfather
-GEMINI_API_KEY=tu_api_key_de_google
-NOTION_TOKEN=tu_token_de_notion
-NOTION_TICKETS_DB=id_de_tu_base_tickets
-NOTION_DETALLE_DB=id_de_tu_base_detalle
-NOTION_INGRESOS_DB=id_de_tu_base_ingresos
-```
+**¿Por qué Notion y no una base de datos?**
+Notion tiene una API gratuita, es visual, permite hacer dashboards y filtros sin código, y cualquiera que quiera replicar el proyecto ya lo tiene o puede crearlo gratis.
 
-### 4. Configurar Notion
-- Crear una Integration en notion.so/profile/integrations
-- Conectar la integration a tu página de ReciboBot
-- Podes crear las tablas Tickets, Detalle e Ingresos (ver estructura abajo)
-- También podes duplicar la plantilla directamente:
+**¿Por qué Railway?**
+El bot tiene que correr 24/7 para poder recibir mensajes en cualquier momento. Railway tiene un tier gratuito, se conecta a GitHub y cada vez que hacés `git push` redespliega automáticamente. Para uso personal es más que suficiente.
 
-## 📋 Plantilla de Notion
+## Plantilla de Notion
+
+¿No querés configurar las tablas desde cero? Duplicá la plantilla con un click:
 
 👉 [Duplicar plantilla de Notion](https://www.notion.so/ReciboBot-320e548e6cdd8090b316c7b819d1cd5b?source=copy_link)
 
-Incluye las tablas Tickets, Detalle e Ingresos ya configuradas con todas las columnas y relaciones.
-
-### 5. Correr el bot
-```bash
-python3 bot.py
-```
-
-## Estructura de Notion
-
-**Tabla Tickets:** Tienda (Title), Fecha (Date), Total (Number), Categoría (Select), Tipo (Select), Moneda (Select)
-
-**Tabla Detalle:** Producto (Title), Precio (Number), Categoría (Select), Tickets (Relation)
-
-**Tabla Ingresos:** Concepto (Title), Monto (Number), Fecha (Date), Fuente (Select), Moneda (Select)
+Incluye las tablas Tickets, Detalle e Ingresos ya configuradas con todas las columnas, relaciones y opciones de Select.
 
 ## Uso
 
-- **Foto de ticket** → mandá la imagen al bot
-- **Gasto sin ticket** → escribí algo como `Uber $150 transporte`
+### Foto de ticket
+Mandá cualquier foto de ticket al bot. Si el ticket no muestra el medio de pago o querés aclarar algo, agregá un caption:
+```
+[foto] + "efectivo, innecesario"
+[foto] + "tarjeta de débito"
+[foto] + "crédito, necesario"
+```
+
+### Registrar un gasto sin ticket
+```
+/gasto almacén Don Jorge $350 hoy tarjeta de débito
+/gasto Uber $180 hoy, necesario
+/gasto 3 bidones de agua $120 cada uno, efectivo
+```
+
+### Registrar un ingreso
+```
+/ingreso mensualidad de papá $5000
+/ingreso cobré sueldo $25000 hoy
+/ingreso me transfirieron $1500 de Juan
+```
 
 ## Deploy
 
-Para correr el bot 24/7 sin tu computadora, podés desplegarlo en Railway o Render (ambos gratuitos para uso personal).
+El bot corre 24/7 en Railway sin necesidad de tener tu computadora encendida. Cada vez que hacés `git push` a GitHub, Railway detecta el cambio y redespliega automáticamente en 2-3 minutos.
+
+Para configurar tu propio deploy seguí las instrucciones en [SETUP.md](SETUP.md).
